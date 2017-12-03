@@ -17,3 +17,7 @@ end
 function waf
     command /home/wyj/R/waf/waf $argv
 end
+
+function vv
+    command nvim $argv
+end

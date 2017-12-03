@@ -1,4 +1,4 @@
-set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin
+set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin
 
 #set -x GOROOT /usr/local/opt/go/libexec
 #set -x GOPATH ~/code
@@ -20,8 +20,8 @@ set -x LESS '--ignore-case --raw-control-chars'
 set -x PAGER 'less'
 set -x EDITOR 'vim'
 
-set -x LANG en_US.UTF-8
-set -x LC_CTYPE "en_US.UTF-8"
+set -x LANG zh_CN.UTF-8
+set -x LC_CTYPE "zh_CN.UTF-8"
 set -x LC_MESSAGES "en_US.UTF-8"
 set -x LC_COLLATE C
 
@@ -46,8 +46,14 @@ set __fish_git_prompt_color_branch yellow
 function fish_prompt
     set last_status $status
     set_color $fish_color_cwd
-    printf '%s' (prompt_pwd)
+    printf '%s' (pwd)
     set_color normal
     printf '%s ' (__fish_git_prompt)
+    set_color normal
+end
+
+function fish_right_prompt
+    set_color brblue
+    jobs | tail | awk '{print $1":"$6}' ORS=',' | sed 's/\(.*\).$/[\1]/'
     set_color normal
 end
