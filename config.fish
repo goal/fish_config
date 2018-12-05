@@ -1,4 +1,5 @@
 set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin
+#set -x LD_LIBRARY_PATH /home/wyj/w/lib
 
 #set -x GOROOT /usr/local/opt/go/libexec
 #set -x GOPATH ~/code
@@ -18,7 +19,7 @@ set -x GREP_COLOR '3;33'
 
 set -x LESS '--ignore-case --raw-control-chars'
 set -x PAGER 'less'
-set -x EDITOR 'vim'
+set -x EDITOR 'nvim'
 
 set -x LANG zh_CN.UTF-8
 set -x LC_CTYPE "zh_CN.UTF-8"
@@ -37,16 +38,18 @@ set __fish_git_prompt_showupstream 'yes'
 set __fish_git_prompt_color_branch yellow
 
 # # Status Chars
-#set __fish_git_prompt_char_dirtystate '⚡'
-#set __fish_git_prompt_char_stagedstate '→'
-#set __fish_git_prompt_char_stashstate '↩'
-#set __fish_git_prompt_char_upstream_ahead '↑'
-#set __fish_git_prompt_char_upstream_behind '↓'
- 
+set __fish_git_prompt_char_dirtystate '±'
+set __fish_git_prompt_char_stagedstate '→'
+set __fish_git_prompt_char_stashstate '←'
+set __fish_git_prompt_char_upstream_ahead '↑'
+set __fish_git_prompt_char_upstream_behind '↓'
+
 function fish_prompt
     set last_status $status
+    set_color brblue
+    printf '%s ' (prompt_hostname)
     set_color $fish_color_cwd
-    printf '%s' (pwd)
+    printf '%s' (prompt_pwd)
     set_color normal
     printf '%s ' (__fish_git_prompt)
     set_color normal
@@ -57,3 +60,5 @@ function fish_right_prompt
     jobs | tail | awk '{print $1":"$6}' ORS=',' | sed 's/\(.*\).$/[\1]/'
     set_color normal
 end
+
+thefuck --alias | source

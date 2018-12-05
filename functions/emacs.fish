@@ -9,3 +9,7 @@ end
 function ee
 	command emacs -q -l ~/R/pu/.emacs.lite $argv
 end
+
+function se
+    command emacs $argv
+end
