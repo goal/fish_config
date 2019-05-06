@@ -1,5 +1,5 @@
 function grep
-	command grep --color=auto $argv
+    command grep --color=auto $argv
 end
 
 function fhead
@@ -7,7 +7,7 @@ function fhead
 end
 
 function lf
-	command curl http://kmochi.com:6666/ecdict/$argv
+    command curl http://kmochi.com:6666/ecdict/$argv
 end
 
 function nj
@@ -20,4 +20,12 @@ end
 
 function vv
     command nvim $argv
+end
+
+function iclj
+    command jupyter-console --kernel=clojupyter
+end
+
+function hgv
+    command python3 ~/R/hgv/hgv.py
 end
