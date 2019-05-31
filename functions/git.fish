@@ -30,3 +30,9 @@ function grh
     command git reset HEAD $argv
 end
 
+function gpsh
+    if not git push
+        set branch (git branch | grep "*" | awk '{print $2}')
+        command git push --set-upstream origin $branch
+    end
+end

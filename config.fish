@@ -45,7 +45,6 @@ set __fish_git_prompt_color_branch yellow
 # set __fish_git_prompt_char_upstream_behind '↓'
 
 function fish_prompt
-    set last_status $status
     set_color brblue
     printf '%s ' (prompt_hostname)
     set_color $fish_color_cwd
@@ -57,8 +56,14 @@ function fish_prompt
 end
 
 function fish_right_prompt
+    set __last_status $status
     set_color brblue
     jobs | tail | awk '{print $1":"$6}' ORS=',' | sed 's/\(.*\).$/[\1]/'
+    if test $__last_status -ne 0
+        set_color brred
+        printf ' %d' $__last_status
+        set_color normal
+    end
     set_color normal
 end
 
