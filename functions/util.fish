@@ -19,7 +19,11 @@ function waf
 end
 
 function vv
-    command nvim $argv
+    if test -f ~/bin/nvim.appimage
+        command ~/bin/nvim.appimage $argv
+    else
+        command nvim $argv
+    end
 end
 
 function iclj
@@ -27,5 +31,9 @@ function iclj
 end
 
 function hgv
-    command python3 ~/R/hgv/hgv.py
+    command python ~/bin/hgv.py
+end
+
+function hgvd
+    command python ~/R/hgv/hgv.py
 end
