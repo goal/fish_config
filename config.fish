@@ -1,4 +1,4 @@
-set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin ~/.local/bin
+set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin ~/.local/bin /home/linuxbrew/.linuxbrew/bin
 #set -x LD_LIBRARY_PATH /home/wyj/w/lib
 
 #set -x GOROOT /usr/local/opt/go/libexec
