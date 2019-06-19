@@ -47,10 +47,9 @@ set __fish_git_prompt_color_branch yellow
 function fish_prompt
     set_color brblue
     printf '%s ' (prompt_hostname)
-    if test -n "$TMUX_PANE"
+    if tmux -V > /dev/null 2>&1
         set_color yellow
-        set __PANE_INDEX (string sub -s 2 $TMUX_PANE)
-        printf '#%d ' (math $__PANE_INDEX + 1)
+        printf '#%s ' (tmux display-message -p '#I')
     end
     set_color $fish_color_cwd
     printf '%s' (prompt_pwd)
