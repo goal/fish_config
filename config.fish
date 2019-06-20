@@ -47,9 +47,11 @@ set __fish_git_prompt_color_branch yellow
 function fish_prompt
     set_color brblue
     printf '%s ' (prompt_hostname)
-    if tmux -V > /dev/null 2>&1
-        set_color yellow
-        printf '#%s ' (tmux display-message -p '#I')
+    if test -n "$TMUX"
+        if tmux -V > /dev/null 2>&1
+            set_color yellow
+            printf '#%s ' (tmux display-message -p '#I')
+        end
     end
     set_color $fish_color_cwd
     printf '%s' (prompt_pwd)
