@@ -37,16 +37,36 @@ function gpsh
     end
 end
 
+function __ggc_checkout
+    set target_branch $argv[1]
+    if test -n "$target_branch"
+        set_color yellow
+        echo "Checkout branch: $target_branch ..."
+        set_color normal
+
+        git checkout $target_branch
+    end
+end
+
 function ggc
     set branch_pattern $argv[1]
     if test -n "$branch_pattern"
-        set target_branch (git branch -a | grep "remotes/origin/" | grep -v HEAD | awk /$branch_pattern/'{sub("remotes/origin/", "", $1); print $1}' | head -n 1)
-        if test -n "$target_branch"
-            set_color yellow
-            echo "Checkout branch: $target_branch ..."
-            set_color normal
-
-            git checkout $target_branch
+        set match_branches (git branch -a | grep "remotes/origin/" | grep -v HEAD | awk /$branch_pattern/'{sub("remotes/origin/", "", $1); print $1}')
+        if test (count $match_branches) -eq 1
+            __ggc_checkout $match_branches[1]
+        else
+            if test (count $match_branches) -gt 1
+                printf "Multiple candidates found:\n"
+                set match_branches_idx 1
+                for _branch in $match_branches
+                    printf "%d\t%s\n" $match_branches_idx $_branch
+                    set match_branches_idx (math $match_branches_idx + 1)
+                end
+                read -p "printf 'Select: '" select_idx
+                if test -n "$select_idx"
+                    __ggc_checkout $match_branches[$select_idx]
+                end
+            end
         end
     end
 end
