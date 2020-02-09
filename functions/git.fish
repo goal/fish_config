@@ -1,3 +1,19 @@
+function check_sensitive_info
+    if git remote -v | grep push | grep github > /dev/null
+        if git config --get user.email | grep wangyanjin > /dev/null
+            read -l -P 'Are you sure to push commits by work email? [y/N] ' confirm
+            switch $confirm
+                case Y y
+                    return 0
+                case '*'
+                    return 1
+            end
+        end
+    end
+
+    return 0
+end
+
 function gd
 	command git diff $argv
 end
@@ -30,10 +46,18 @@ function grh
     command git reset HEAD $argv
 end
 
+function gcm
+    if check_sensitive_info
+        commit git commit -m $argv
+    end
+end
+
 function gpsh
-    if not git push
-        set branch (git branch | grep "*" | awk '{print $2}')
-        command git push --set-upstream origin $branch
+    if check_sensitive_info
+        if not git push
+            set branch (git branch | grep "*" | awk '{print $2}')
+            command git push --set-upstream origin $branch
+        end
     end
 end
 
