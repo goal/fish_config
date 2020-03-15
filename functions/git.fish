@@ -48,7 +48,7 @@ end
 
 function gcm
     if check_sensitive_info
-        commit git commit -m $argv
+        command git commit -m $argv
     end
 end
 
@@ -75,7 +75,13 @@ end
 function ggc
     set branch_pattern $argv[1]
     if test -n "$branch_pattern"
-        set match_branches (git branch -a | grep "remotes/origin/" | grep -v HEAD | awk /$branch_pattern/'{sub("remotes/origin/", "", $1); print $1}')
+        set _match_branches (git branch -a --format='%(refname)' | awk /$branch_pattern/'{ gsub(/refs\/remotes\/origin\/|refs\/heads\//, ""); print }')
+        set match_branches
+        for item in $_match_branches
+            if not contains $item $match_branches
+                set match_branches $match_branches $item
+            end
+        end
         if test (count $match_branches) -eq 1
             __ggc_checkout $match_branches[1]
         else
@@ -86,10 +92,11 @@ function ggc
                     printf "%d\t%s\n" $match_branches_idx $_branch
                     set match_branches_idx (math $match_branches_idx + 1)
                 end
-                read -p "printf 'Select: '" select_idx
-                if test -n "$select_idx"
-                    __ggc_checkout $match_branches[$select_idx]
+                read -p "printf 'Select(default 1): '" select_idx
+                if not test -n "$select_idx"
+                    set select_idx 1
                 end
+                __ggc_checkout $match_branches[$select_idx]
             end
         end
     end

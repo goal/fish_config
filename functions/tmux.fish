@@ -3,5 +3,7 @@ function tat
 end
 
 function tns
-	command tmux new-session -s $argv
+    if not tmuxp load $argv
+        command tmux new-session -s $argv
+    end
 end

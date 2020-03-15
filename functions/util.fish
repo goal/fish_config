@@ -37,3 +37,8 @@ end
 function hgvd
     command python ~/R/hgv/hgv.py
 end
+
+function sm
+    # 需要添加ssh key先
+    command luit -encoding gb2312 ssh crgold@newsmth.net
+end

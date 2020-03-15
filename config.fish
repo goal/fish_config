@@ -1,4 +1,5 @@
-set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin ~/.local/bin /home/linuxbrew/.linuxbrew/bin
+set -x PATH $PATH /usr/sbin /sbin /usr/local/sbin /usr/local/bin ~/bin ~/.local/bin /home/linuxbrew/.linuxbrew/bin /Users/wyj/Library/Python/2.7/bin /Users/wyj/Library/Python/3.8/bin
+set -g fish_user_paths "/usr/local/opt/ruby/bin" $fish_user_paths
 #set -x LD_LIBRARY_PATH /home/wyj/w/lib
 
 #set -x GOROOT /usr/local/opt/go/libexec
@@ -11,7 +12,7 @@ set -x GIT_MERGE_AUTOEDIT no
 #set -x HOMEBREW_CASK_OPTS "--appdir=/Applications"
 
 # Setup terminal, and turn on colors
-set -x TERM xterm-256color
+# set -x TERM xterm-256color
 #set -xU LS_COLORS "di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34:su=0:sg=0:tw=0:ow=0:"
 
 # Enable color in grep
@@ -50,11 +51,15 @@ function fish_prompt
     if test -n "$TMUX"
         if tmux -V > /dev/null 2>&1
             set_color yellow
-            printf '#%s ' (tmux display-message -p '#I')
+            printf '#%s' (tmux display-message -p '#I')
         end
     end
+    if test -n "$KITTY_WINDOW_ID"
+        set_color yellow
+        printf '@%s' $KITTY_WINDOW_ID
+    end
     set_color $fish_color_cwd
-    printf '%s' (prompt_pwd)
+    printf ' %s' (prompt_pwd)
     set_color normal
     printf '%s' (__fish_git_prompt)
     printf '%s ' (__fish_hg_prompt)
@@ -65,6 +70,8 @@ function fish_right_prompt
     set __last_status $status
     set_color brblue
     jobs | tail | awk '{print $1":"$6}' ORS=',' | sed 's/\(.*\).$/[\1]/'
+    set_color 604461
+    printf ' %s' (date "+%H:%M:%S")
     if test $__last_status -ne 0
         set_color brred
         printf ' %d' $__last_status
