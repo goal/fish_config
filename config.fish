@@ -27,6 +27,12 @@ set -x LC_CTYPE "zh_CN.UTF-8"
 set -x LC_MESSAGES "en_US.UTF-8"
 set -x LC_COLLATE C
 
+# Nix
+if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+  # fisher add oh-my-fish/plugin-foreign-env
+  fenv source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+end
+
 source ~/.config/fish/functions/emacs.fish
 source ~/.config/fish/functions/git.fish
 source ~/.config/fish/functions/tmux.fish
